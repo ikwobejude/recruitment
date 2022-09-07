@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #f1f1f1;
+  }
+
+  #regForm {
+    background-color: #ffffff;
+    margin: 100px auto;
+    font-family: Raleway;
+    padding: 30px;
+    width: 70%;
+    min-width: 300px;
+  }
+
+  h1 {
+    text-align: center;
+  }
+
+  input {
+    padding: 10px;
+    width: 100%;
+    font-size: 17px;
+    font-family: Raleway;
+    border: 1px solid #aaaaaa;
+  }
+
+  /* Mark input boxes that gets an error on validation: */
+  input.invalid {
+    background-color: #ffdddd;
+  }
+
+  /* Hide all steps by default: */
+  .tab {
+    display: none;
+  }
+
+  button {
+    background-color: #04AA6D;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-family: Raleway;
+    cursor: pointer;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  #prevBtn {
+    background-color: #bbbbbb;
+  }
+
+  /* Make circles that indicate the steps of the form: */
+  .step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbbbbb;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.5;
+  }
+
+  .step.active {
+    opacity: 1;
+  }
+
+  /* Mark the steps that are finished and valid: */
+  .step.finish {
+    background-color: #04AA6D;
+  }
+
+   /* spinner */
+   #cover-spin {
+        position:fixed;
+        width:100%;
+        left:0;right:0;top:0;bottom:0;
+        background-color: rgba(255,255,255,0.7);
+        z-index:9999;
+        display:none;
+    }
+    @-webkit-keyframes spin {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #cover-spin::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 48%;
+      top: 40%;
+      width: 40px;
+      height: 40px;
+      border-style: solid;
+      border-color: black;
+      border-top-color: transparent;
+      border-width: 4px;
+      border-radius: 50%;
+      -webkit-animation: spin .8s linear infinite;
+      animation: spin .8s linear infinite;
+    }
+
+    .img {
+      align-items: center;
+    }
+
+    .card-container{
+    /* background-color:#0F6; */
+        width:100%;
+        height:auto;
+        text-align:center;
+        margin:auto 0;  
+    }
+    
+    .card-container ul{
+        text-align:center;
+        margin:auto 0;
+    }
+    .card-container li{
+        list-style-type:none;
+        padding:.5em .5em .5em .5em;
+        float:left;
+        text-align:left;
+    }
+    .card{
+        transition: 0.2s;
+        overflow:hidden;
+        width:7em;
+        word-wrap:break-word;
+    }
+    .card-image{
+        box-shadow:1 1 #000;
+        transition:.3s;
+        /* background-color:#C33; */
+        margin:auto 0;
+        text-align:center;
+    }
+    .card-image:hover{
+        transform:scale(1.25,1.25);
+        transform-origin: 50% 50%;
+        box-shadow:2 2 #0f0;
+    }
+    .card-theme{
+        padding: .1em .1em .1em .1em;
+        /* background-color:#999; */
+        word-wrap: break-word;
+    }
+    .card:hover{
+    box-shadow: 0 5px 5px 0 rgba(0,0,33,1);
+    }
+  #loading {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.7;
+    background-color: #fff;
+    z-index: 99;
+  }
+
+  #loading-image {
+    z-index: 100;
+  }
+</style>
+
+<body>
+    <div id="loading">
+        <img id="loading-image" src="/home/images/Spinner-1s-200px.gif" alt="Loading..." />
+    </div>
+    
+  <div id="cover-spin"></div>
