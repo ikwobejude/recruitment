@@ -1,5 +1,6 @@
 const express = require('express')
-const adminController = require('../controllers/adminController')
+const adminController = require('../controllers/adminController');
+const adminEmail = require('../controllers/adminEmailNotificationController');
 const admin = express.Router();
 
 
@@ -46,6 +47,14 @@ admin.route('/chart_payment_by_assessment')
 admin.route('/chart_pay_assessment_item')
 .get(async(req, res)=> {
     adminController.paymentByItem(req, res);
+})
+
+admin.route('/email_notifications')
+.get(async(req, res) => {
+    adminEmail.adminSendEmailNotificationGet(req, res)
+})
+.post(async(req, res)=> {
+
 })
 
 module.exports = admin;
