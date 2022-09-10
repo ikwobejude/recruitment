@@ -842,11 +842,16 @@ module.exports.editInfo = async(req, res) => {
 
       console.log(upd)
       await new_applications.update(upd, {where:{process_number: req.body.proccess_id}}, {new:true});
-      res.status(200).json({msg: "done"});
+        //   res.status(200).json({msg: "done"});
       
-  } catch (error) {
-    res.status(201).json({err: error.message})
-  }
+        req.flash('success', 'MDA Updated Successfully')
+        res.redirect('/')
+        
+    } catch (error) {
+       req.flash('danger', error.message)
+      res.redirect('/')
+    }
+  
 }
 
 

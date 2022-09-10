@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { Sequelize, QueryTypes } = require("sequelize");
 const db = require("../db/db");
 const Op = Sequelize.Op;
@@ -219,7 +220,8 @@ module.exports.get_applicants = async(req, res) => {
             current: page,
             pages: Math.ceil(count / perPage),
             count,
-            orgid : orgid == 8 ? 8 : 0
+            orgid : orgid == 8 ? 8 : 0,
+            
         })
     } else {
         let perPage = 10;
@@ -265,6 +267,6 @@ module.exports.getApplicationD = async(req, res) => {
     let docs = await document.findAll({where:{name:  req.query.process_id }})
     res.render('./admin/review_answers', {
         applicant: applicant[0], title : "View Application Details", job, education,
-        prev_emplyemtnet, Consents, pass, pass, docs
+        prev_emplyemtnet, Consents, pass, pass, docs, fs: fs
     })
 }
