@@ -416,7 +416,7 @@ const  organization = db.define(
       autoIncrement: true,
     },
     code: { type: Sequelize.STRING },
-    name: { type: Sequelize.DATE },
+    name: { type: Sequelize.STRING },
     description: { type: Sequelize.STRING },
   },
   {

@@ -3,9 +3,20 @@ const express = require('express');
 let cookieParser = require('cookie-parser')
 const cors = require('cors')
 const path = require('path')
+require('dotenv').config();
+
 const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
+console.log( process.env.DB_PASSWOR)
 
+const options = {
+  host: process.env.DB_HOST,
+  user: process.env.NAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DATABASE
+};
+const sessionStore = new MySQLStore(options);
 
 // routes 
 
@@ -36,12 +47,14 @@ app.set('trust proxy', 1) // trust first proxy
 app.use(session({
     secret: process.env.SESSION_SECRECT,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    store: sessionStore,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 3
     }
   }));
 
+ 
 
 
 
@@ -89,7 +102,7 @@ app.post('/', async (req, res) => {
 
 
 function main() {
-    let PORT = process.env.PORT || 5000;
+    let PORT = process.env.PORT || 4000;
     app.listen(PORT, () => {
         console.log("APP RUNNING ON PORT", PORT)
     })

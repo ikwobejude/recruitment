@@ -39,16 +39,17 @@
                         <table class="table align-items-center mb-0">
                           <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CODE</th>
+                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CODE</th>
                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NAME</th>
-                              
-                              
-                              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+
+
+                              <th
+                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 ACTION</th>
                             </tr>
                           </thead>
                           <tbody>
-                           
+
 
                           </tbody>
                         </table>
@@ -70,16 +71,16 @@
                         <h5 class="modal-title" id="exampleModalLabel">Send Email</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <form>
+                      <form id="email">
                         <div class="modal-body">
                           <div class="mb-3">
-                           <select name="type" id="emailtype" name="emailtype" class="form-control" onchange="getEmailtType()">
-                            <option value="">SELECT NOTIFICATION TYPE</option>
-                            <option value="INDIVIDUAL">INDIVIDUAL</option>
-                            <option value="APPLICANTS">APPLICANTS</option>
-                           </select>
+                            <select id="emailtype" name="emailtype" class="form-control" onchange="getEmailtType()">
+                              <option value="">SELECT NOTIFICATION TYPE</option>
+                              <option value="INDIVIDUAL">INDIVIDUAL</option>
+                              <option value="APPLICANTS">APPLICANTS</option>
+                            </select>
                           </div>
-                         
+
                           <div id="addmore">
 
                           </div>
@@ -94,50 +95,51 @@
                 </div>
 
                 <%- include('../layouts/admin/footer') %>
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-                <script src="/notify.js"></script>
-                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                  <script src="/notify.js"></script>
+                  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-                <script>
-                  function getEmailtType(){
-                    let eType = document.getElementById('emailtype').value;
-                    if(eType == "INDIVIDUAL"){
-                      try {
-                        let indivForm ='';
-                        indivForm +=' <div class="mb-3">' ;
-                        indivForm +='<input type="email" class="form-control" placeholder="Email Adress" name="email"id="email">' ;
-                          indivForm +='</div>' ;
-                          indivForm +='<div class="mb-3">' ;
-                           indivForm +=' <input type="text" class="form-control" placeholder="Full Name" name="fullname"id="fullname">' ;
-                          indivForm +='</div>' ;
-                         indivForm +=' <div class="mb-3">' ;
-                           indivForm +=' <input type="text" class="form-control" placeholder="Subject" name="subject"id="subject">' ;
-                          indivForm +='</div>' ;
-                          indivForm +='<div class="mb-3">' ;
-                           indivForm +=' <textarea type="text" class="form-control" placeholder="Message" name="emailContent" id="emailContent"> </textarea>' ;
-                          indivForm +='</div>' ;
-                     
-                      
-             
-                      // document.getElementById('addmore').innerHTML = indivForm;
-                      $('#addmore').html(indivForm);
-                      } catch (error) {
-                        console.log(error)
-                      }
-                      
-                    } else  if(eType == "APPLICANTS"){
-                     let appl = `
+                  <script>
+                    function getEmailtType() {
+                      let eType = document.getElementById('emailtype').value;
+                      if (eType == "INDIVIDUAL") {
+                        try {
+                          let indivForm = '';
+                          indivForm += ' <div class="mb-3">';
+                          indivForm += '<input type="email" class="form-control" placeholder="Email Adress" name="email"id="email">';
+                          indivForm += '</div>';
+                          indivForm += '<div class="mb-3">';
+                          indivForm += ' <input type="text" class="form-control" placeholder="Full Name" name="fullname"id="fullname">';
+                          indivForm += '</div>';
+                          indivForm += ' <div class="mb-3">';
+                          indivForm += ' <input type="text" class="form-control" placeholder="Subject" name="subject"id="subject">';
+                          indivForm += '</div>';
+                          indivForm += '<div class="mb-3">';
+                          indivForm += ' <textarea type="text" class="form-control" placeholder="Message" name="emailContent" id="emailContent"> </textarea>';
+                          indivForm += '</div>';
+
+
+
+                          // document.getElementById('addmore').innerHTML = indivForm;
+                          $('#addmore').html(indivForm);
+                        } catch (error) {
+                          console.log(error)
+                        }
+
+                      } else if (eType == "APPLICANTS") {
+                        let appl = `
                       <div class="mb-3">
-                            <select name="type" id="emailtype" name="emailtype" class="form-control" onchange="getEmailtType()">
+                            <select id="mda" name="mda" class="form-control" onchange="getEmailtType()">
                              <option value="">SELECT SELECT MDA </option>
                               <% ministies.forEach(function(mda){%>
-                                <option value="<%= mda.code %>"><%= mda.name %></option>
+                                <option value="<%= mda.code %>"><%= mda.name %> <%= mda.code %></option>
                               <%})%>
                             </select>
                            </div>
                            <div class="mb-3">
-                            <select name="type" id="emailtype" name="emailtype" class="form-control" onchange="getEmailtType()">
+                            <select  id="current_step" name="current_step" class="form-control" >
                              <option value="">SELECT APPLICATION CURRENT STEP </option>
                              <option value="1">STEP ONE (BIO DATE)</option>
                              <option value="2">STEP TWO (cOUNTUATION)</option>
@@ -152,39 +154,69 @@
                             </select>
                            </div>
                      `;
-                     $('#addmore').html(appl);
+                        $('#addmore').html(appl);
 
-                    } else {
-                      console.log("hi")
+                      } else {
+                        console.log("hi")
+                      }
                     }
-                  }
-                </script>
+                  </script>
 
 
                   <script>
-                    let frm = document.querySelector("form");
-                    frm.addEventListener("submit", async (e) => {
+                    // let form = $('#email')
+                    let form = document.querySelector('#email');
+                    form.addEventListener('submit', async (e) => {
                       e.preventDefault();
-                      let name = frm.name.value;
-                      let email = frm.email.value;
-                      let phone_number = frm.phone_number.value;
-                      let sector = frm.sector.value;
-                      console.log({name:name,  email:email,  phone_number: phone_number, sector:sector})
-                      try {
-                        let res = await fetch('/admin/judges', {
-                          method: "POST",
-                          body: JSON.stringify({name:name,  email:email,  phone_number: phone_number, sector:sector}),
-                          headers: { 'Content-type': 'application/json' }
-                        })
+                      $('#cover-spin').show(0)
+                      // emailtype=APPLICANTS&mda=&current_step=7
+                      let diss = {};
+                      if (form.emailtype.value == "APPLICANTS") {
+                        diss = {
+                          emailtype: form.emailtype.value,
+                          // email: form.email.value,
+                          // fullname: form.fullname.value,
+                          // subject: form.subject.value,
+                          // emailContent: form.emailContent.value,
+                          mda: form.mda.value,
+                          current_step: form.current_step.value
+                        }
+                      } else {
+                        diss = {
+                          emailtype: form.emailtype.value,
+                          email: form.email.value,
+                          fullname: form.fullname.value,
+                          subject: form.subject.value,
+                          emailContent: form.emailContent.value,
+                          // mda: form.mda.value,
+                          // current_step: form.current_step.value
+                        }
+                      }
 
-                        let data = await res.json();
+
+                      console.log(diss)
+                      try {
+                        const res = await fetch('/admin/email_notifications', {
+                          method: "POST",
+                          body: JSON.stringify(diss),
+                          headers: { 'Content-Type': 'application/json' }
+                        });
+
+                        const data = await res.json();
+                        $('#cover-spin').hide(0)
+
                         if (data.err) {
+                          $('#cover-spin').hide(0)
                           Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
                             text: data.err,
                           })
+
+
                         } else {
+                          $('#cover-spin').hide(0)
+                          let p = data.data
                           Swal.fire({
                             position: 'top-end',
                             icon: 'success',
@@ -192,18 +224,19 @@
                             showConfirmButton: false,
                             timer: 1500
                           }).then(() => {
-                            window.location.reload();
+                            location.assign(`/application_2_2?piid=` + p)
                           })
+
                         }
-
                       } catch (error) {
+                        $('#cover-spin').hide(0)
                         Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: data.err,
-                          })
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: error.message,
+                          // footer: '<a href="">Why do I have this issue?</a>'
+                        })
                       }
-
                     })
                   </script>
                   </body>

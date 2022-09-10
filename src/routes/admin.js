@@ -54,7 +54,7 @@ admin.route('/email_notifications')
     adminEmail.adminSendEmailNotificationGet(req, res)
 })
 .post(async(req, res)=> {
-
+    adminEmail.adminSendEmailNotificationPos(req, res);
 })
 
 module.exports = admin;

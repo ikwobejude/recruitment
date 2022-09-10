@@ -797,7 +797,7 @@ module.exports.applicantFileUp = async(req, res) => {
 
 module.exports.editMDA = async(req, res) => {
   try {
-    let applicant = await findApplicanByID(req.query.user_id);
+    let applicant = await findApplicant(req.query.user_id, req.query.mda_id);
     if(applicant.application_status == 1){
          req.flash('success', 'You can only update once')
          res.redirect('back')
