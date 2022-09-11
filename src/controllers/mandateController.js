@@ -127,7 +127,7 @@ module.exports.initializePayment =  async(req, res) => {
         let item_name = "RECRUITMENT FORM FEE"
 
         let Mda_reference = taxrin(6) + inv;
-        let URL1 = 'https://plsgrecruitment.org/api_payment_response';
+        let URL1 = 'https://plsgrecruitment.com/api_payment_response';
 
         
         let data = {
@@ -199,7 +199,7 @@ module.exports.initializSuccesspage = async(req, res) => {
 module.exports.monifyInititialization = async(req, res) => {
     try {
               let hosturl = 'https://payments.psirs.gov.ng/monnify/initialize_transaction';
-              let callbackUrl = 'https://plsgrecruitment.org/monnify/verify_payment?paymentReference='+req.query.payment_ref;
+              let callbackUrl = 'https://plsgrecruitment.com/monnify/verify_payment?paymentReference='+req.query.payment_ref;
           
               let payload = {
                 brn: req.query.payment_ref,
@@ -233,7 +233,8 @@ module.exports.monifyInititialization = async(req, res) => {
           
                 })
     } catch (error) {
-        
+      req.flash("error", error.message);
+      res.redirect("back");
     }
 }
 
@@ -332,7 +333,7 @@ module.exports.paymentResponse = async(req, res) => {
 
 module.exports.printslips = async(req, res) => {
     let piid = req.query.piid
-    let payed = await assessments.findOne({where: {assessment_rule: piid}});
+    let payed = await assessments.findOne({where: {assessment_rule: piid, settlement_status:1}});
     let applicant = await db.query(`
      SELECT new_applications.*, organization.name as org_name, job_category.name as category, _countries.*, _states.*,_lga.*
      from new_applications 
