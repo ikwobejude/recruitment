@@ -8,7 +8,7 @@ require('dotenv').config();
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 
-console.log( process.env.DB_PASSWOR)
+// console.log( process.env.DB_PASSWOR)
 
 const options = {
   host: process.env.DB_HOST,

@@ -315,7 +315,6 @@ module.exports.paymentResponse = async(req, res) => {
      from new_applications 
     INNER JOIN organization on new_applications.org_id = organization.code
     INNER JOIN job_category on job_category.code = new_applications.job_position
-    INNER JOIN progress on new_applications.process_number = progress.process_number 
     LEFT JOIN _countries ON _countries.country_id = new_applications.applicant_country
     LEFT JOIN _states ON _states.state_id = new_applications.state_of_origin
     LEFT JOIN _lga ON _lga.lga_id = new_applications.applicant_local_govt
@@ -339,7 +338,6 @@ module.exports.printslips = async(req, res) => {
      from new_applications 
     INNER JOIN organization on new_applications.org_id = organization.code
     INNER JOIN job_category on job_category.code = new_applications.job_position
-    INNER JOIN progress on new_applications.process_number = progress.process_number 
     LEFT JOIN _countries ON _countries.country_id = new_applications.applicant_country
     LEFT JOIN _states ON _states.state_id = new_applications.state_of_origin
     LEFT JOIN _lga ON _lga.lga_id = new_applications.applicant_local_govt
