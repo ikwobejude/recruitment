@@ -4,7 +4,7 @@ const adminEmail = require('../controllers/adminEmailNotificationController');
 const admin = express.Router();
 
 
-admin.route('/dashboard')
+admin.route('/dashboard') 
     .get(async (req, res) => {
         adminController.adminDashboard(req, res);
     })
@@ -18,7 +18,9 @@ admin.route('/get_job_categories')
         adminController.getJobCategory(req, res)
     })
 
-
+admin.get('/mda_actions', async(req, res) => {
+    adminController.setMDAToRecruiting(req, res)
+})
 admin.route('/admin_view_applications')
 .get(async(req, res) => {
     adminController.get_applicants(req, res)

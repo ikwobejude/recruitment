@@ -88,12 +88,13 @@ app.set('view engine', 'ejs')
 
 
 app.use(checkUser)
-app.get('/', async (req, res) => {
-  let organiz = await organization.findAll()
+app.route('/')
+.get(async (req, res) => {
+  let organiz = await organization.findAll({where:{recruiting:1}})
     res.render('index', {organiz})
 })
-app.post('/', async (req, res) => {
-  let organiz = await organization.findAll()
+.post(async (req, res) => {
+  let organiz = await organization.findAll({where:{recruiting:1}})
     res.render('index', {organiz})
 })
 

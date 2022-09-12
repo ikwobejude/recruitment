@@ -76,8 +76,21 @@ module.exports.postMdA = async (req, res) => {
    res.status(200).json({msg: "done"})
   } catch (error) {
     res.status(201).json({err: error.message})
+    
   }
 };
+
+
+module.exports.setMDAToRecruiting = async(req, res) => {
+    try {
+        let code = req.query.id;
+        let rstatus = req.query.rstatus;
+        organization.update({recruiting: rstatus}, {where:{id:code}});
+        res.status(200).json({msg: "done"})
+    } catch (error) {
+        res.status(201).json({err: error.message})
+    }
+}
 
 
 

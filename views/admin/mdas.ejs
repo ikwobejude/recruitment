@@ -3,7 +3,67 @@
 
 <head>
   <%- include('../layouts/admin/header') %>
-
+  <style>
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      -webkit-transition: .4s;
+      transition: .4s;
+    }
+    
+    input:checked + .slider {
+      background-color: #de1fbb;
+    }
+    
+    input:focus + .slider {
+      box-shadow: 0 0 1px #ac1d92;
+    }
+    
+    input:checked + .slider:before {
+      -webkit-transform: translateX(26px);
+      -ms-transform: translateX(26px);
+      transform: translateX(26px);
+    }
+    
+    /* Rounded sliders */
+    .slider.round {
+      border-radius: 34px;
+    }
+    
+    .slider.round:before {
+      border-radius: 50%;
+    }
+    </style>
     <head>
       <%- include('../layouts/admin/side-bar') %>
 
@@ -36,6 +96,7 @@
                             <tr>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">CODE</th>
                               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NAME</th>
+                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">RECRUITING</th>
                               
                               
                               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -60,6 +121,12 @@
                                     <h6 class="mb-0 text-sm"><%= mda.name %></h6>
                                   </div>
                                 </div>
+                              </td>
+                              <td>
+                                <label class="switch">
+                                  <input type="checkbox" id="xxx" name="xxx" onclick="calc('<%= mda.id %>');" <%= mda.recruiting == 1 ? "checked" : ""%> />
+                                  <span class="slider round"></span>
+                                </label>
                               </td>
                               
                              
@@ -163,6 +230,61 @@
                       }
 
                     })
+                  </script>
+                  <script>
+                    function calc(id)
+                      {
+                        if (document.getElementById('xxx').checked) 
+                        {
+                            console.log(id)
+                            fetch('/admin/mda_actions?id='+id+'&rstatus=1')           //api for the get request
+                              .then(response => {
+                                response.json()
+                                Swal.fire({
+                                  position: 'top-end',
+                                  icon: 'success',
+                                  title: 'MDA SET TO RECRUITING',
+                                  showConfirmButton: false,
+                                  timer: 1500
+                                }).then(() => {
+                                  window.location.reload();
+                                })
+                              })
+                              .then(data => {
+                                console.log(data)
+                                
+                              })
+                              .catch(err =>{
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: data.err,
+                                })
+                              })
+                        } else {
+                          fetch('/admin/mda_actions?id='+id+'&rstatus=0')           //api for the get request
+                          .then(response => {
+                                response.json()
+                                Swal.fire({
+                                  position: 'top-end',
+                                  icon: 'success',
+                                  title: 'MDA SET TO NOT RECRUITING',
+                                  showConfirmButton: false,
+                                  timer: 1500
+                                }).then(() => {
+                                  window.location.reload();
+                                })
+                              })
+                              .then(data => console.log(data))
+                              .catch(err =>{
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: data.err,
+                                })
+                              })
+                        }
+                      }
                   </script>
                   </body>
 
