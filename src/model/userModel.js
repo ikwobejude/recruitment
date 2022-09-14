@@ -64,6 +64,9 @@ exports.Users = db.define('users', {
     user_code:{
         type: Sequelize.BLOB
     }, 
+    organization_id:{
+        type: Sequelize.STRING
+    }, 
 },{
     freezeTableName: true,
     timestamps: false

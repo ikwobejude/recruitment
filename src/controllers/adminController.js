@@ -30,18 +30,19 @@ module.exports.adminDashboard = async (req, res) => {
                 title: "Dashbord"
             });
         } else {
+            console.log(req.user.organization_id)
             let payment = await Api_Payments.sum('Amount')
-            let individualCount = await new_applications.count({ where: { org_id: req.user.organiztion_id } });
-            let completed = await new_applications.count({ where: { current_step: 8, org_id: req.user.organiztion_id } })
+            let individualCount = await new_applications.count({ where: { org_id: req.user.organization_id } });
+            let completed = await new_applications.count({ where: { current_step: 8, org_id: req.user.organization_id } })
             let applicant = await db.query(`
         SELECT * from new_applications 
-        INNER JOIN organization on new_applications.org_id = organization.code WHERE org_id = ${req.user.organiztion_id}
+        INNER JOIN organization on new_applications.org_id = organization.code WHERE org_id = ${req.user.organization_id}
         order by new_applications.id desc  limit 10 
         
         `, { type: QueryTypes.SELECT });
             let ministryap = await db.query(`
         SELECT count(*) as count, organization.name  from new_applications 
-        INNER JOIN organization on new_applications.org_id = organization.code WHERE org_id = ${req.user.organiztion_id} group by org_id
+        INNER JOIN organization on new_applications.org_id = organization.code WHERE org_id = ${req.user.organization_id} group by org_id
         `, { type: QueryTypes.SELECT });
 
             res.render("./admin/dashboard", {
@@ -111,7 +112,7 @@ module.exports.postJobs = async(req, res) => {
             job_category_id : req.body.job_category_id,
             job_position_id : req.body.job_position_id,
             job_platform_id : req.body.job_platform_id,
-            organiztion_id  : req.body.organiztion_id,
+            organization_id  : req.body.organization_id,
             
         }
         let newJob = new job(payload);
@@ -207,13 +208,13 @@ module.exports.postJobPlatform = async(req, res) => {
 
 
 module.exports.get_applicants = async(req, res) => {
+    let orgid = req.query.complect || [1, 2, 3, 4, 5, 6, 7, 10];
 
     if (req.user.group_id == 111111) {
         let perPage = 10;
         let page = req.query.page || 1;
         let offset = perPage * page - perPage;
-        let orgid = req.query.complect || [1, 2, 3, 4, 5, 6, 7, 10];
-
+        
 
 
         let applicant = await db.query(`
@@ -246,10 +247,13 @@ module.exports.get_applicants = async(req, res) => {
     SELECT new_applications.*, organization.name as name, job_category.name as position from new_applications 
     INNER JOIN organization on new_applications.org_id = organization.code
     LEFT JOIN job_category on job_category.code = new_applications.job_position
-    INNER JOIN progress on new_applications.process_number = progress.process_number where org_id = ${req.user.organiztion_id} AND current_step = 8 order by new_applications.id limit ${perPage} offset ${offset}
+    INNER JOIN progress on new_applications.process_number = progress.process_number where org_id = ${req.user.organization_id} AND current_step = 8 order by new_applications.id limit ${perPage} offset ${offset}
     
     `, { type: QueryTypes.SELECT });
-        let count = await new_applications.count({ where: { current_step: 8 } })
+    let cnt = await db.query(`SELECT COUNT(*) as count FROM new_applications WHERE  org_id = ${req.user.organization_id} AND current_step IN (${orgid})`, { type: QueryTypes.SELECT })
+    // new_applications.count({ where: { current_step: {[Op.in]: orgid} } })
+    // console.log(cnt);
+    let count = cnt[0].count;
 
         res.render('./admin/review_applications', {
             applicant, title: "Review Applications",
@@ -263,7 +267,6 @@ module.exports.get_applicants = async(req, res) => {
 }
 
 module.exports.getApplicationD = async(req, res) => {
-
     let applicant = await db.query(`
          SELECT new_applications.*, organization.name as name, job_category.name as job, _countries.*,  _states.*,  _lga.*  from new_applications 
         INNER JOIN organization on new_applications.org_id = organization.code
